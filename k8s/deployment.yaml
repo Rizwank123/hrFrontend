@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-dashboard
+  labels:
+    app: employee-dashboard
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: employee-dashboard
+  template:
+    metadata:
+      labels:
+        app: employee-dashboard
+    spec:
+      containers:
+      - name: employee-dashboard
+        image: employee-dashboard:latest
+        imagePullPolicy: Never  # Add this line
+        env:  # Add environment variables
+        - name: NODE_ENV
+          value: "production"
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: employee-dashboard-service
+spec:
+  selector:
+    app: employee-dashboard
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000  # Add this line to specify a fixed node port
+  type: LoadBalancer
