@@ -47,6 +47,7 @@
         }
       ]
     ],
-    "scheme": "hr-attendance-app"
+    "scheme": "hr-attendance-app",
+    "sdkVersion": "51.0.0"
   }
 }
